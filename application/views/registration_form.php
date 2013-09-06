@@ -1,16 +1,20 @@
 <h1>Inflow Registration Page</h1>
-
-<form action="registration_script" method="post">
+<?php
+echo '<pre>';
+var_dump($courses);
+echo '<pre>';
+ ?>
+<form action="welcome" method="post">
 	<label>Phone nr:</label><br />
-	<input type="text" name="student_phone" value="<?php if(isset($student_phone)) { echo $student_phone; } else { echo ''; } ?>"><br />
+	<input type="text" name="student_phone" value="<?php if(isset($info['student_phone'])) { echo $info['student_phone']; } else { echo ''; } ?>"><br />
 	<label>Name:</label><br />
-	<input type="text" name="student_name" value="<?php if(isset($student_name)) { echo $student_name; } else { echo ''; } ?>"><br />
+	<input type="text" name="student_name" value="<?php if(isset($info['student_name'])) { echo $info['student_name']; } else { echo ''; } ?>"><br />
 	<label>Degree:</label><br />
-	<input type="text" name="student_degree" value="<?php if(isset($student_degree)) { echo $student_degree; } else { echo ''; } ?>"><br />
-	<input type="checkbox" name="course[]" value="course1" /> Course 1<br />
-	<input type="checkbox" name="course[]" value="course2" /> Course 2<br />
-	<input type="checkbox" name="course[]" value="course3" /> Course 3<br />
-	<input type="checkbox" name="course[]" value="course4" /> Course 4<br />
-	<input type="checkbox" name="course[]" value="course5" /> Course 5<br />
+	<input type="text" name="student_degree" value="<?php if(isset($info['student_degree'])) { echo $info['student_degree']; } else { echo ''; } ?>"><br />
+
+		<?php foreach($courses as $key => $value): ?>
+			<input type="checkbox" name="course[]" value="<?php echo $value ?>" <?php if ($value == 1){ echo 'checked';} ?>/><?php echo $key ?><br />
+		<?php endforeach; ?>
+
 	<input type="submit" value="Register">
 </form>

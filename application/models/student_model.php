@@ -26,7 +26,7 @@ class Student_model extends CI_Model {
 		$sql = "SELECT * FROM students WHERE student_phone = ?";
 		$query = $this->db->query($sql, ($phone_number));
 
-		foreach($query->result() as $result){
+		foreach($query->result_array() as $result){
 			$dataset = $result;
 		}
 

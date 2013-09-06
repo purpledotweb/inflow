@@ -4,7 +4,6 @@ class Student extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Student_model');
-
 	}
 
 	function welcome()
@@ -14,39 +13,49 @@ class Student extends CI_Controller {
 		$this->load->view('html_foot');
 	}
 
-	function check_number()
+	function check_number($phone_number)
 	{
-		$phone_number = $_POST['phone_number'];
 		$phone_check = $this->Student_model->check_if_exists($phone_number);
 
 		if ($phone_check === true)
 		{
-			// if number exists, load filled out form
-			$this->load_existing_by_number($phone_number);
+			return true;
 		}
 		else
 		{
-			// if number does not exist, load empty form
-			$this->register_new($phone_number);
+			return false;
 		}
 	}
 
-	function register_new($phone_number)
+	function register()
 	{
-		$data['phone_number'] = $phone_number;
-		$this->load->view('html_head');
-		$this->load->view('registration_form', $data);
-		$this->load->view('html_foot');
+		$phone_number = $_POST['phone_number'];
+		$this->registration_form($phone_number, $this->check_number($phone_number));
 	}
 
-	function load_existing_by_number($phone_number)
+	function registration_form($phone_number, $exists)
 	{
-		$data = $this->Student_model->load_existing_by_number($phone_number);
-		echo '<pre>';
-		var_dump($data);
-		echo '</pre>';
-		$this->load->view('html_head');
-		$this->load->view('registration_form', $data);
-		$this->load->view('html_foot');	}
+		if ($exists === true)
+		{
+			$dataset = $this->Student_model->load_existing_by_number($phone_number);
+			$data['info'] = array_slice($dataset, 0, 5);
+			$data['courses'] = array_slice($dataset, 5);
+
+			$this->load->view('html_head');
+			$this->load->view('registration_form', $data);
+			$this->load->view('html_foot');
+		}
+		else
+		{
+			$dataset = $this->db->list_fields('students');
+			$data['info'] = array('student_phone' => $phone_number);
+			$data['courses'] = array_slice($dataset, 5);
+
+			$this->load->view('html_head');
+			$this->load->view('registration_form', $data);
+			$this->load->view('html_foot');
+		}
+
+	}
 }
 ?>
