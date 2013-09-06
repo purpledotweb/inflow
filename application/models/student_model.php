@@ -33,9 +33,65 @@ class Student_model extends CI_Model {
 		return $dataset;
 	}
 
-	function write_to_db($data) {
-		$datatest = $data;
-		return $datatest;
+	function build_query_string($data)
+	{
+
+/*
+	$data = array(
+           'title' => $title,
+           'name' => $name,
+           'date' => $date
+        );
+
+$this->db->insert('mytable', $data);
+*/
+	}
+
+	function prepare_data_array($data)
+	{
+		$columns = $this->db->list_fields('students');
+		foreach($columns as $column)
+		{
+			if(array_key_exists($column, $data))
+			{
+				echo "if in_array went through: " . $column . " <br>";
+
+				if ($data[$column] == 'on')
+				{
+					$new_data[$column] = 1;
+				}
+				else
+				{
+					$new_data[$column] = $data[$column];
+				}
+			}
+			else
+			{
+
+				if ($column != 'id' && $column != 'registration_time')
+				{
+					echo "if in_array did not go through <br>";
+					$new_data[$column] = 0;
+				}
+			}
+		}
+		return $new_data;
+	}
+
+	function write_to_db($data)
+	{
+		if($this->check_if_exists($data['student_phone']))
+		{
+			echo 'nr. exists';
+			$this->db->where('student_phone', $data['student_phone']);
+			$this->db->update('students', $data);
+		}
+		else
+		{
+			echo 'nr. NOT exists';
+
+			$this->db->insert('students', $data);
+		}
 	}
 }
 ?>

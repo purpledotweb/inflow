@@ -13,24 +13,20 @@ class Student extends CI_Controller {
 		$this->load->view('html_foot');
 	}
 
-	function check_number($phone_number)
-	{
-		$phone_check = $this->Student_model->check_if_exists($phone_number);
-
-		if ($phone_check === true)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 	function register()
 	{
 		$phone_number = $_POST['phone_number'];
-		$this->registration_form($phone_number, $this->check_number($phone_number));
+		$this->registration_form($phone_number, $this->Student_model->check_if_exists($phone_number));
+	}
+
+	function registered()
+	{
+		$data = $_POST;
+		$for_db = $this->Student_model->prepare_data_array($data);
+		echo '<pre>';
+		var_dump($for_db);
+		echo '</pre>';
+		$this->Student_model->write_to_db($for_db);
 	}
 
 	function registration_form($phone_number, $exists)
