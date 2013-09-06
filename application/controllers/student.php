@@ -39,7 +39,7 @@ class Student extends CI_Controller {
 		{
 			$dataset = $this->Student_model->load_existing_by_number($phone_number);
 			$data['info'] = array_slice($dataset, 0, 5);
-			$data['courses'] = array_slice($dataset, 5);
+			$data['selected_courses'] = array_slice($dataset, 5);
 
 			$this->load->view('html_head');
 			$this->load->view('registration_form', $data);
@@ -49,7 +49,7 @@ class Student extends CI_Controller {
 		{
 			$dataset = $this->db->list_fields('students');
 			$data['info'] = array('student_phone' => $phone_number);
-			$data['courses'] = array_slice($dataset, 5);
+			$data['default_courses'] = array_slice($dataset, 5);
 
 			$this->load->view('html_head');
 			$this->load->view('registration_form', $data);
