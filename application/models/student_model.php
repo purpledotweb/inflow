@@ -33,6 +33,32 @@ class Student_model extends CI_Model {
 		return $dataset;
 	}
 
+
+
+	function load_existing_by_course($course)
+	{
+
+		$sql = "SELECT * FROM `students` WHERE $course=1";
+		$query = $this->db->query($sql);
+
+		$count=$query->num_rows(); 
+
+			if ($count > 0){
+			
+			foreach($query->result() as $result){
+			$dataset= $result;
+			$phone_numbers[]= $dataset->student_phone;
+
+
+			}
+			
+
+			return $phone_numbers;
+		}
+
+		else echo 'no result';
+	}
+
 	function build_query_string($data)
 	{
 

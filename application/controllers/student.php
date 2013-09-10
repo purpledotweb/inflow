@@ -29,6 +29,32 @@ class Student extends CI_Controller {
 		$this->Student_model->write_to_db($for_db);
 	}
 
+
+	function send_sms()
+	{
+		$this->load->view('html_head');
+		$this->load->view('send_sms');
+		$this->load->view('html_foot');
+	}
+
+	function sms_sent()
+	{
+		$course = $_POST['course'];
+		$message = $_POST['message'];
+
+		$phone_numbers = $this->Student_model->load_existing_by_course($course);
+		
+
+		foreach($phone_numbers as $val) {
+		   //sende the sms from here
+
+			echo '<i>"'.$message.'" sent to </i><b>'.$val.'<br>';
+
+		}
+		
+	}
+
+
 	function registration_form($phone_number, $exists)
 	{
 		if ($exists === true)
