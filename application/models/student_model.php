@@ -38,7 +38,7 @@ class Student_model extends CI_Model {
 	function load_existing_by_group($group)
 	{
 
-		$sql = "SELECT * FROM `users` WHERE groups LIKE '%".$group."%'";
+		$sql = "SELECT * FROM `users` WHERE group like '%".$group."%'";
 		$query = $this->db->query($sql);
 
 		$count=$query->num_rows(); 
@@ -47,7 +47,7 @@ class Student_model extends CI_Model {
 			
 			foreach($query->result() as $result){
 			$dataset= $result;
-			$phone_numbers[]= $dataset->Phone;
+			$phone_numbers[]= $dataset->student_phone;
 
 
 			}
@@ -55,6 +55,8 @@ class Student_model extends CI_Model {
 
 			return $phone_numbers;
 		}
+
+		else echo 'no result';
 	}
 
 
