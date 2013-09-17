@@ -1,12 +1,26 @@
-<h1>Send an SMS from here</h1>
 
-<form action="sms_sent" method="post">
-	<label>Intended for student of Course:</label><br />
-	<input type="text" name="course" value=""><br />
+<div id="center">
+	
+	<div id="content">
 
-	<label>Message</label><br />
-	<textarea name="message">Post the message you want to send to the students...
-	</textarea><br />
+		<form action="sms_sent" method="post">
+			<label><b>To Group:</b></label><br />
+				<select name="group"> 
 
-	<input type="submit" value="Send">
-</form>
+				<?php foreach($Name as $val) {	
+				echo  '<option value="'.$val['Name'].'">'.$val['Name'].'</option>';
+
+				} 
+				 ?>
+				</select><br /><br />
+
+			<label><b>Your Message :</b></label><br />
+			<textarea name="message" wrap="off" cols="53" rows="7">Report to office ASAP
+			</textarea><br />
+
+			<input type="submit" value="Send Message">
+		</form>
+			
+	</div>
+
+</div>	

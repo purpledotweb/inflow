@@ -1,0 +1,18 @@
+
+<div id="head">
+		<h2>Send an SMS from here</h2>
+</div>	
+
+<div id="center">
+	
+	<div id="content">
+		<?php
+
+			echo $group.'<i> was created</i><br>'; 
+			
+		}
+		?>
+
+	</div>
+
+</div>	

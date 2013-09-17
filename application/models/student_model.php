@@ -35,10 +35,10 @@ class Student_model extends CI_Model {
 
 
 
-	function load_existing_by_course($course)
+	function load_existing_by_group($group)
 	{
 
-		$sql = "SELECT * FROM `students` WHERE $course=1";
+		$sql = "SELECT * FROM `users` WHERE groups LIKE '%".$group."%'";
 		$query = $this->db->query($sql);
 
 		$count=$query->num_rows(); 
@@ -47,7 +47,7 @@ class Student_model extends CI_Model {
 			
 			foreach($query->result() as $result){
 			$dataset= $result;
-			$phone_numbers[]= $dataset->student_phone;
+			$phone_numbers[]= $dataset->Phone;
 
 
 			}
@@ -55,9 +55,31 @@ class Student_model extends CI_Model {
 
 			return $phone_numbers;
 		}
+	}
+
+
+	function load_groups()
+	{
+
+		$sql = "SELECT * FROM groups";
+		$query = $this->db->query($sql);
+
+		$count=$query->num_rows(); 
+
+			if ($count > 0){
+			
+			foreach($query->result_array() as $result){
+			$dataset= $result;
+			$groups[]= $dataset;
+
+			}
+
+			return $groups;
+		}
 
 		else echo 'no result';
 	}
+
 
 	function build_query_string($data)
 	{
@@ -119,5 +141,30 @@ $this->db->insert('mytable', $data);
 			$this->db->insert('students', $data);
 		}
 	}
-}
+
+	function insert_group($group)
+	{
+		$this->db->insert('groups', $group);
+	}
+
+	function insert_user($user)
+	{
+		$this->db->insert('users', $user);
+	}
+
+	function login($user)
+	{
+	   	$query = $this->db->get_where('users', array('Name' => $user['username']));
+        $count = $query->num_rows();
+
+        if($count === 0)
+        {
+        	return false;
+        } else {
+        	return true;
+        }
+	}
+
+}	
+	
 ?>
