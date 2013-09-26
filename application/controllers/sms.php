@@ -1,59 +1,33 @@
 <?php
-class Student extends CI_Controller {
+class Sms extends CI_Controller {
 	
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Student_model');
+		$this->load->model('Admin_model');
 	}
-
-	function index()
-	{
-		$this->load->view('html_head');
-		$this->load->view('index');
-		$this->load->view('html_foot');
-	}
-
-	
-	function welcome()
-	{
-		$this->load->view('html_head');
-		$this->load->view('index');
-		$this->load->view('html_foot');
-	}
-
-	function register()
-	{
-		$phone_number = $_POST['phone_number'];
-		$this->registration_form($phone_number, $this->Student_model->check_if_exists($phone_number));
-	}
-
-	function registered()
-	{
-		$data = $_POST;
-		$for_db = $this->Student_model->prepare_data_array($data);
-		echo '<pre>';
-		var_dump($for_db);
-		echo '</pre>';
-		$this->Student_model->write_to_db($for_db);
-	}
-
 
 	function send_sms()
 	{
-		$groups['Name']=$this->Student_model->load_groups();
+		$this->load->library('session');
+		if($this->session->userdata('session_id')){
+		$groups['Name']=$this->Admin_model->load_groups();
 
 		$this->load->view('html_head');
 		$this->load->view('send_sms', $groups);
 		$this->load->view('html_foot');
+		}
+
+		else echo "You are not logged_in";
 	}
+
 
 	function sms_sent()
 	{
-		$group = $_POST['group'];
+		$group = $_POST['groups'];
 		$message = $_POST['message'];
 
-		$phone_numbers['phone'] = $this->Student_model->load_existing_by_group($group);
+		$phone_numbers['phone'] = $this->Admin_model->load_existing_by_group($group);
 		$phone_numbers['message']=$message;
 		$phone_numbers['group']=$group;
 
@@ -210,96 +184,7 @@ class Student extends CI_Controller {
 		$this->load->view('html_foot');
 	}
 
-
-	function registration_form($phone_number, $exists)
-	{
-		if ($exists === true)
-		{
-			$dataset = $this->Student_model->load_existing_by_number($phone_number);
-			$data['info'] = array_slice($dataset, 0, 5);
-			$data['selected_courses'] = array_slice($dataset, 5);
-
-			$this->load->view('html_head');
-			$this->load->view('registration_form', $data);
-			$this->load->view('html_foot');
-		}
-		else
-		{
-			$dataset = $this->db->list_fields('students');
-			$data['info'] = array('student_phone' => $phone_number);
-			$data['default_courses'] = array_slice($dataset, 5);
-
-			$this->load->view('html_head');
-			$this->load->view('registration_form', $data);
-			$this->load->view('html_foot');
-		}
-    
-
-	}
-
-
-	function create_groups()
-	    {
-	    	$this->load->view('html_head');
-			$this->load->view('create_groups');
-			$this->load->view('html_foot');
-	    }	
-
-	function group_created()
-		{
-			$group['Name'] = $_POST['name'];
-			$this->Student_model->insert_group($group);
-
-			$this->load->view('html_head');
-			$this->load->view('group_created', $group);
-			$this->load->view('html_foot');
-		}
-
-	function create_users()
-	    {
-	    	$groups['Name']=$this->Student_model->load_groups();
-	    	$this->load->view('html_head');
-			$this->load->view('create_users', $groups);
-			$this->load->view('html_foot');
-	    }	
-
-	 function user_created()
-		{
-			$user['Name']= $_POST['name'];
-			$user['Phone']=$_POST['phone'];
-			$user['groups']=(serialize($_POST['group']));
-			$this->Student_model->insert_user($user);
-
-			$this->load->view('html_head');
-			$this->load->view('user_created', $user);
-			$this->load->view('html_foot');
-		}
-
-	function login()
-		{
-			$user['username']= $_POST['username'];
-			$user['password']=$_POST['password'];
-
-			if($this->Student_model->login($user))
-			{
-				$this->dashboard();
-			}
-			else echo "wrong username";
-		}	   	
-
-	function dashboard()
-		{
-			$this->load->view('html_head');
-			$this->load->view('dashboard');
-			$this->load->view('html_foot');
-		}	
-
-
-
-
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
 // SMS SENDING FUNCTIONS	
 
 			function print_ln($content) {
@@ -534,4 +419,5 @@ class Student extends CI_Controller {
 		return $wbxml;    
 	}
 }
-?>
+
+?>	

@@ -3,7 +3,7 @@
 	<title>Welcome to Inflow!</title>
 	<style type="text/css">
 		body{
-			background: url(http://media.grahambrown.com/assets/tile/329x405/329x/grahambrown/prod/DF75499-pattern.jpg);
+			background: url();
 			margin: auto;
 			color: #151B8D;
 			width:100%;
@@ -36,16 +36,36 @@
 			border-radius: 15px;
 			margin-top: 80px;
 			border: 1px solid grey;
+			float: left;
+		}
+
+		#admin{
+			margin-top: 80px;
+			padding-top: 200px;
+			float: left;
+			height: 100%;
+			background-color: #E8E8E8;
+			border: 1px solid grey;
+			height: 300px;
+			margin-right: 5px;
+			border-radius: 10px; 
+		}
+
+		#recipients{
+			width: 400px;
+			height: 100px;
+			background-color: #E8E8E8;
+			border: 1px solid grey;
+			margin: auto;
 		}
 
 		#content{
-			text-align: center;
 		}
 
 		form input[type=text]{
 			width: 250px;
 			height:35px;
-			text-align: center;
+			text-align: justify;
 			font-size: 20px;
 			font-weight: bold;
 		}
@@ -84,8 +104,8 @@
 <body>
 
 	<div id="top">
-		<div id="dashboard"><a href="http://localhost/inflow/index.php/student/dashboard"><h4>Dashboard</h4></a></div>
-		<div id="logout"><a href="http://localhost/inflow/index.php/student/"><h4>logout</h4></a></div>
+		<div id="dashboard"><a href="http://localhost/inflow/index.php/login/dashboard"><h4>Dashboard</h4></a></div>
+		<div id="logout"><a href="http://localhost/inflow/index.php/login/logout"><h4>logout</h4></a></div>
 		<div id="header"><h2>INFLOW</h2></div>
 		
 	</div>	

@@ -58,6 +58,9 @@ class CI_Config {
 	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
 	 * @return  boolean  if the file was successfully loaded or not
 	 */
+
+	
+
 	function __construct()
 	{
 		$this->config =& get_config();
@@ -347,7 +350,6 @@ class CI_Config {
 	{
 		$this->config[$item] = $value;
 	}
-
 	// --------------------------------------------------------------------
 
 	/**

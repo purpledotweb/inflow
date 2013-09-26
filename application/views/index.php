@@ -4,7 +4,7 @@
 	<div id="content">
 			
 
-		<form action="login" method="post">
+		<form action="logged_in" method="post">
 			<label><b>Username:</b></label><br />
 			<input type="text" name="username">	<br /><br />
 
